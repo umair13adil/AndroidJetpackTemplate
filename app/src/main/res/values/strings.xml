@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Android JetPack Template</string>
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_header_content_description">Navigation drawer header logo</string>
+
+    <!--Menu Items-->
+    <string name="menu_all_movies">Movies</string>
+    <string name="menu_fav_movies">Favourites</string>
+
+</resources>
