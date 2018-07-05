@@ -1,12 +1,24 @@
 package com.umairadil.androidjetpack.ui.base
 
+import android.arch.lifecycle.ViewModelProvider
+import android.content.Context
 import android.support.v4.app.Fragment
 import com.michaelflisar.rxbus2.interfaces.IRxBusQueue
 import com.michaelflisar.rxbus2.rx.RxDisposableManager
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.processors.BehaviorProcessor
 import org.reactivestreams.Publisher
+import javax.inject.Inject
 
 abstract class BaseFragment : Fragment(), IRxBusQueue {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+    }
 
     private val mResumedProcessor = BehaviorProcessor.createDefault(false)
 

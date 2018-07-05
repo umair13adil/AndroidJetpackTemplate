@@ -42,10 +42,6 @@ dependencies {
     implementation "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:1.1.2"
 
-    //Dagger2
-    implementation 'com.google.dagger:dagger:2.15'
-    implementation 'com.google.dagger:dagger-android-support:2.14.1'
-
     //RxKotlin
     implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
 
@@ -73,9 +69,13 @@ dependencies {
     implementation 'eu.davidea:flexible-adapter:5.0.5'
     implementation 'eu.davidea:flexible-adapter-ui:1.0.0-b5'
 
+    //Dagger2
+    implementation 'com.google.dagger:dagger:2.16'
+    implementation 'com.google.dagger:dagger-android-support:2.16'
+
     //kapt
-    kapt "com.google.dagger:dagger-compiler:2.15"
-    kapt "com.google.dagger:dagger-android-processor:2.14.1"
+    kapt "com.google.dagger:dagger-compiler:2.16"
+    kapt "com.google.dagger:dagger-android-processor:2.16"
 
     //Logging
     implementation 'com.jakewharton.timber:timber:4.7.1'

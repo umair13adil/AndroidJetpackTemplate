@@ -19,7 +19,7 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(MoviesViewModel::class)
-    abstract fun bindMainViewModel(viewModel: MoviesViewModel): ViewModel
+    abstract fun bindMoviesViewModel(viewModel: MoviesViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -28,6 +28,4 @@ abstract class ViewModelModule {
 
     @Binds
     abstract fun provideViewModelFactory(factory: MyViewModelFactory): ViewModelProvider.Factory
-
-
 }

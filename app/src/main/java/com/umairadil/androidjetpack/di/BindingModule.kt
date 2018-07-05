@@ -1,6 +1,7 @@
 package com.umairadil.androidjetpack.di
 
-import com.umairadil.androidjetpack.ui.detail.DetailFragment
+import com.umairadil.androidjetpack.ui.base.BaseActivity
+import com.umairadil.androidjetpack.ui.base.BaseFragment
 import com.umairadil.androidjetpack.ui.main.MainActivity
 import com.umairadil.androidjetpack.ui.movies.MoviesFragment
 import dagger.Module
@@ -23,6 +24,10 @@ internal abstract class BindingModule {
 
     @ActivityScope
     @ContributesAndroidInjector
+    abstract fun baseActivity(): BaseActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector
     abstract fun mainActivity(): MainActivity
 
     /****************************
@@ -31,11 +36,11 @@ internal abstract class BindingModule {
 
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun mainFragment(): MoviesFragment
+    abstract fun baseFragment(): BaseFragment
 
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun detailFragment(): DetailFragment
+    abstract fun moviesFragment(): MoviesFragment
 
 
     /****************************
@@ -46,5 +51,4 @@ internal abstract class BindingModule {
     /****************************
      ** Services
      ****************************/
-
 }

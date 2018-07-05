@@ -5,7 +5,7 @@ import io.reactivex.Observable
 
 interface MovieDataSource {
 
-    fun insertMovie(posts: Movie)
+    fun insertMovie(movie: Movie)
 
-    fun getAllMovies(): Observable<List<Movie>>
+    fun getAllMovies(page: Int): Observable<List<Movie>>
 }

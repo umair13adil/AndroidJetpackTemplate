@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.umairadil.androidjetpack.R
 import com.umairadil.androidjetpack.ui.base.BaseFragment
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class MoviesFragment : BaseFragment() {
-
-    companion object {
-        fun newInstance() = MoviesFragment()
-    }
 
     private lateinit var viewModel: MoviesViewModel
 
@@ -22,14 +21,30 @@ class MoviesFragment : BaseFragment() {
         return inflater.inflate(R.layout.movie_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MoviesViewModel::class.java)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Timber.i("Main Fragment Started")
+        getMovies(1)
+    }
+
+    fun getMovies(page: Int) {
+        viewModel.getMovies(page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy(  // named arguments for lambda Subscribers
+                        onNext = {
+                            Timber.i("Movies Fetched: ${it.size}")
+                        },
+                        onError = {
+                            it.printStackTrace()
+
+                        },
+                        onComplete = { }
+                )
     }
 }
