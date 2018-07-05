@@ -2,11 +2,13 @@ package com.umairadil.androidjetpack.ui.items
 
 import android.animation.Animator
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.ImageView
+import com.squareup.picasso.Picasso
 import com.umairadil.androidjetpack.R
 import com.umairadil.androidjetpack.models.movies.Movie
 import com.umairadil.androidjetpack.utils.Constants
@@ -109,7 +111,12 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>, holder: ParentViewHolder, position: Int, payloads: MutableList<Any>?) {
         holder.itemView.setActivated(isSelected)
 
-        holder.jobName.setText("")
+        holder.title.setText(movie.originalTitle)
+        holder.overview.setText(movie.overview)
+        holder.popularity.setText(movie.popularity.toString())
+
+
+        Picasso.with(holder.itemView.context).load(Constants.BASE_URL_IMAGE + movie.posterPath).into(holder.poster)
 
         //This will change UI backgrounds & colors upon selection
         if (hasSubItems())
@@ -127,9 +134,10 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
 
     class ParentViewHolder(view: View, adapter: FlexibleAdapter<*>) : ExpandableViewHolder(view, adapter) {
 
-        val jobName: AppCompatTextView
-        val jobFloor: AppCompatTextView
-        val packages: AppCompatTextView
+        val title: AppCompatTextView
+        val overview: AppCompatTextView
+        val popularity: AppCompatTextView
+        val poster: AppCompatImageView
 
         var fView: View
         var leftView: View
@@ -140,9 +148,10 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
         var swiped = false
 
         init {
-            this.jobName = view.txt_movie_title
-            this.jobFloor = view.txt_genere
-            this.packages = view.txt_description
+            this.title = view.txt_movie_title
+            this.overview = view.txt_description
+            this.popularity = view.txt_popularity
+            this.poster = view.img_movie_poster
 
             this.fView = view.front_view
             this.leftView = view.rear_left_view
@@ -151,9 +160,9 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
             this.rightImage = view.right_image
 
             //Apply Fonts
-            jobName.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_BOLD, itemView.context)
-            jobFloor.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_REGULAR, itemView.context)
-            packages.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_REGULAR, itemView.context)
+            title.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_BOLD, itemView.context)
+            overview.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_REGULAR, itemView.context)
+            popularity.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_REGULAR, itemView.context)
 
         }
 
@@ -200,18 +209,18 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
         val context = holder.contentView.context
 
         holder.frontView.setBackgroundColor(ContextCompat.getColor(context, color))
-        holder.jobName.setTextColor(ContextCompat.getColor(context, colorContent))
-        holder.jobFloor.setTextColor(ContextCompat.getColor(context, colorContent))
-        holder.packages.setTextColor(ContextCompat.getColor(context, colorContent))
+        holder.title.setTextColor(ContextCompat.getColor(context, colorContent))
+        holder.overview.setTextColor(ContextCompat.getColor(context, colorContent))
+        holder.popularity.setTextColor(ContextCompat.getColor(context, colorContent))
     }
 
     private fun clearSelection(holder: ParentViewHolder) {
         val context = holder.contentView.context
 
         holder.frontView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
-        holder.jobName.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
-        holder.jobFloor.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
-        holder.packages.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+        holder.title.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+        holder.overview.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+        holder.popularity.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
     }
 
 }

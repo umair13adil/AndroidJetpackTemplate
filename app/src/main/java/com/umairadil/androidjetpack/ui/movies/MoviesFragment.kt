@@ -10,7 +10,8 @@ import com.umairadil.androidjetpack.ui.base.BaseFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
+import kotlinx.android.synthetic.main.empty_view.*
+import kotlinx.android.synthetic.main.movie_fragment.*
 
 class MoviesFragment : BaseFragment() {
 
@@ -32,13 +33,13 @@ class MoviesFragment : BaseFragment() {
         getMovies(1)
     }
 
-    fun getMovies(page: Int) {
+    private fun getMovies(page: Int) {
         viewModel.getMovies(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(  // named arguments for lambda Subscribers
                         onNext = {
-                            Timber.i("Movies Fetched: ${it.size}")
+                            showOrHideList(recycler_view, empty_view, it)
                         },
                         onError = {
                             it.printStackTrace()

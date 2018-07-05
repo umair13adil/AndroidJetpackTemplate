@@ -28,7 +28,7 @@
                     android:id="@+id/rear_right_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorRed"
+                    android:background="@color/colorWhite"
                     android:visibility="gone">
 
                     <ImageView
@@ -48,7 +48,7 @@
                     android:id="@+id/rear_left_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorGreen"
+                    android:background="@color/colorWhite"
                     android:visibility="gone">
 
                     <ImageView
@@ -68,6 +68,7 @@
                     android:id="@+id/front_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
                     android:visibility="visible">
 
                     <!-- inner content -->
@@ -90,10 +91,10 @@
                             <android.support.v7.widget.AppCompatImageView
                                 android:id="@+id/img_movie_poster"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/margin_100"
+                                android:layout_height="@dimen/margin_250"
                                 android:layout_margin="@dimen/margin_5"
                                 android:scaleType="centerCrop"
-                                app:srcCompat="@drawable/ic_user" />
+                                app:srcCompat="@drawable/ic_xml_grey600_48dp" />
 
                             <android.support.v7.widget.AppCompatTextView
                                 android:id="@+id/txt_movie_title"
@@ -114,13 +115,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
-                                android:lines="1"
+                                android:lines="2"
                                 android:text="Description"
                                 android:textSize="@dimen/txt_size_12"
                                 android:visibility="visible" />
 
                             <android.support.v7.widget.AppCompatTextView
-                                android:id="@+id/txt_genere"
+                                android:id="@+id/txt_popularity"
                                 style="@style/TextTitleStyle.Medium"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
