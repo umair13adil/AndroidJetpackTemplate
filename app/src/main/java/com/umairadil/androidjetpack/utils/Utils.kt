@@ -1,7 +1,9 @@
 package com.umairadil.androidjetpack.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Typeface
+import android.view.inputmethod.InputMethodManager
 import io.reactivex.annotations.NonNull
 
 class Utils {
@@ -46,5 +48,17 @@ class Utils {
         }
 
         return font
+    }
+
+    fun hideKeyboard(context: Context?) {
+        try {
+            if (context != null) {
+                val a = context as Activity?
+                val imm = a!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(a.currentFocus!!.windowToken, 0)
+            }
+        } catch (e: NullPointerException) {
+
+        }
     }
 }

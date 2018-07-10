@@ -2,10 +2,14 @@ package com.umairadil.androidjetpack.ui.movies
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.michaelflisar.rxbus2.RxBusBuilder
+import com.michaelflisar.rxbus2.rx.RxBusMode
 import com.umairadil.androidjetpack.R
+import com.umairadil.androidjetpack.models.search.SearchQuery
 import com.umairadil.androidjetpack.ui.base.BaseFragment
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -55,6 +59,15 @@ class MoviesFragment : BaseFragment() {
 
         //Get first page of movies list
         getMovies(1)
+
+        //Listen for search query
+        RxBusBuilder.create(SearchQuery::class.java)
+                .withQueuing(this)
+                .withMode(RxBusMode.Main)
+                .subscribe { data ->
+                    if (!TextUtils.isEmpty(data.query))
+                        Timber.i("SearchQuery: ${data.query}")
+                }
     }
 
     private fun getMovies(page: Int) {

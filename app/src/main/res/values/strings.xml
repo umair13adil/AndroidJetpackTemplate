@@ -14,4 +14,7 @@
     <string name="endless_cancel">Cancelled by the user.</string>
     <string name="endless_error">An error occurred while loading more items.</string>
 
+    <!--Search-->
+    <string name="search_hint">Enter movie name to search</string>
+
 </resources>
