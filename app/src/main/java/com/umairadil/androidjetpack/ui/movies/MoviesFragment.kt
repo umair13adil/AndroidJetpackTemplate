@@ -11,6 +11,7 @@ import com.michaelflisar.rxbus2.rx.RxBusMode
 import com.umairadil.androidjetpack.R
 import com.umairadil.androidjetpack.models.search.SearchQuery
 import com.umairadil.androidjetpack.ui.base.BaseFragment
+import com.umairadil.androidjetpack.utils.Constants
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
@@ -65,9 +66,24 @@ class MoviesFragment : BaseFragment() {
                 .withQueuing(this)
                 .withMode(RxBusMode.Main)
                 .subscribe { data ->
-                    if (!TextUtils.isEmpty(data.query))
-                        Timber.i("SearchQuery: ${data.query}")
+                    filterData(data.query)
                 }
+    }
+
+    private fun filterData(query: String) {
+
+        if (query != Constants.CLEAR_SEARCH) {
+
+            if (!TextUtils.isEmpty(query)) {
+                setFilter(query)
+            } else {
+                clearFilter()
+            }
+
+        } else {
+            Timber.i("getMovies")
+            getMovies(1)
+        }
     }
 
     private fun getMovies(page: Int) {
@@ -75,6 +91,12 @@ class MoviesFragment : BaseFragment() {
         //Do nothing if page is less than 1
         if (page < 1)
             return
+
+        //Do nothing if filter is applied
+        if (adapter?.hasFilter()!!) {
+            Timber.i("hasFilter")
+            return
+        }
 
         //Show ProgressBar
         showLoading(progress_bar, empty_view)

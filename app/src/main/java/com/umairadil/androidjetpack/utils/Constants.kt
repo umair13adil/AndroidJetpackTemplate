@@ -4,7 +4,6 @@ object Constants {
 
     //String base_url="https://api.themoviedb.org/3/discover/movie?primary_release_year=2010&sort_by=vote_average.desc&api_key=e95c5c33d38a6be5f25c91d64c8d80e0&page=1";
 
-
     var BASE_URL_API = "https://api.themoviedb.org/3/discover/"
     var BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w500/"
 
@@ -27,4 +26,7 @@ object Constants {
     val FONT_ROBOTO_CONDENSED_LIGHT = 15
     val FONT_ROBOTO_CONDENSED_LIGHT_ITALIC = 16
     val FONT_ROBOTO_CONDENSED_REGULAR = 17
+
+    //Search
+    const val CLEAR_SEARCH = "%clear1%"
 }

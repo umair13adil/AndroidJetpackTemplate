@@ -17,11 +17,12 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.helpers.AnimatorHelper
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IExpandable
+import eu.davidea.flexibleadapter.items.IFilterable
 import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.ExpandableViewHolder
 import kotlinx.android.synthetic.main.item_movie.view.*
 
-class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHolder>(), IExpandable<MovieItem.ParentViewHolder, SimilarItem> {
+class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHolder>(), IExpandable<MovieItem.ParentViewHolder, SimilarItem>, IFilterable<String> {
 
     private val color = R.color.colorPrimaryDark
 
@@ -101,6 +102,11 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
 
     override fun getItemViewType(): Int {
         return 0
+    }
+
+    override fun filter(constraint: String?): Boolean {
+        return movie.originalTitle != null && movie.originalTitle?.toLowerCase()?.trim()?.contains(constraint!!)!! ||
+                movie.overview != null && movie.overview?.toLowerCase()?.trim()?.contains(constraint!!)!!
     }
 
     override fun createViewHolder(view: View?, adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?): ParentViewHolder {

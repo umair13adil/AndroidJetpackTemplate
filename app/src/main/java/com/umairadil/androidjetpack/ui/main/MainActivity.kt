@@ -14,8 +14,10 @@ import com.michaelflisar.rxbus2.RxBus
 import com.umairadil.androidjetpack.R
 import com.umairadil.androidjetpack.models.search.SearchQuery
 import com.umairadil.androidjetpack.ui.base.BaseActivity
+import com.umairadil.androidjetpack.utils.Constants
 import com.umairadil.androidjetpack.utils.Utils
 import kotlinx.android.synthetic.main.main_activity.*
+
 
 class MainActivity : BaseActivity() {
 
@@ -68,6 +70,9 @@ class MainActivity : BaseActivity() {
                     //Clear focus & close search
                     searchItem.collapseActionView()
                     searchView.clearFocus()
+
+                    //Send 'CLEAR SEARCH' value to clear filter
+                    RxBus.get().send(SearchQuery(Constants.CLEAR_SEARCH))
 
                     return false
                 }

@@ -27,6 +27,7 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.reactivex.processors.BehaviorProcessor
 import org.reactivestreams.Publisher
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -93,7 +94,11 @@ abstract class BaseFragment : Fragment(), IRxBusQueue,
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator = DefaultItemAnimator()
-        adapter?.setSwipeEnabled(true)?.setAutoScrollOnExpand(false)?.setRecursiveCollapse(true)
+
+        adapter?.setSwipeEnabled(true)
+                ?.setAutoScrollOnExpand(false)
+                ?.setRecursiveCollapse(true)
+                ?.setNotifyChangeOfUnfilteredItems(true)
     }
 
     fun setEndlessScroll(scrollListener: FlexibleAdapter.EndlessScrollListener) {
@@ -166,13 +171,46 @@ abstract class BaseFragment : Fragment(), IRxBusQueue,
      ***/
     fun clearListData() {
         try {
-            if (mItems != null && mItems?.isNotEmpty()!!) {
+            if (isAdapterNotEmpty()) {
                 mItems?.clear()
                 adapter?.clear()
                 adapter?.notifyDataSetChanged()
             }
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    /***
+     * Will return true if items are added in adapter.
+     ***/
+    private fun isAdapterNotEmpty(): Boolean {
+        return mItems != null && mItems?.isNotEmpty()!!
+    }
+
+    /***
+     * This will clear filter from list adapter.
+     ***/
+    fun clearFilter() {
+        Timber.i("clearFilter")
+        if (isAdapterNotEmpty()) {
+            adapter?.setFilter(null)
+            adapter?.filterItems(mItems!! as List<Nothing>, 350)
+        }
+    }
+
+    /***
+     * This will set filter to list adapter.
+     ***/
+    fun setFilter(query: String) {
+        Timber.i("setFilter: $query")
+        if (isAdapterNotEmpty()) {
+            if (adapter?.hasNewFilter(query)!!) {
+                adapter?.setFilter(query)
+                adapter?.filterItems(mItems!! as List<Nothing>, 350)
+            } else {
+                clearFilter()
+            }
         }
     }
 
@@ -228,7 +266,7 @@ abstract class BaseFragment : Fragment(), IRxBusQueue,
         }
 
         //Show or Hide list
-        if (adapter?.itemCount == 0) {
+        if (!isAdapterNotEmpty()) {
             recyclerView.visibility = View.GONE
             emptyView.visibility = View.VISIBLE
         } else {
