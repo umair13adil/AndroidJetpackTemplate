@@ -6,32 +6,37 @@
     android:layout_height="match_parent"
     android:theme="@style/AppTheme">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <FrameLayout
+        android:id="@+id/layout_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:enabled="true"
-        android:visibility="visible">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/layout_list"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            style="@style/scrollbarStyleVertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbarDefaultDelayBeforeFade="1000"
+            android:scrollbarFadeDuration="5000"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_movie">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                style="@style/scrollbarStyleVertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:scrollbarDefaultDelayBeforeFade="1000"
-                android:scrollbarFadeDuration="5000"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_movie" />
+        </android.support.v7.widget.RecyclerView>
 
-        </FrameLayout>
+        <eu.davidea.fastscroller.FastScroller
+            android:id="@+id/fast_scroller"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:fastScrollerAutoHideDelayInMillis="1500"
+            app:fastScrollerAutoHideEnabled="true"
+            app:fastScrollerBubbleEnabled="true"
+            app:fastScrollerBubblePosition="adjacent"
+            app:fastScrollerHandleAlwaysVisible="false"
+            app:fastScrollerIgnoreTouchesOutsideHandle="true"
+            tools:visibility="visible" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
 
     <include layout="@layout/empty_view" />
 

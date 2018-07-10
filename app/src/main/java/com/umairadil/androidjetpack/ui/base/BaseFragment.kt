@@ -1,5 +1,7 @@
 package com.umairadil.androidjetpack.ui.base
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.os.Bundle
@@ -10,10 +12,13 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ProgressBar
 import com.michaelflisar.rxbus2.interfaces.IRxBusQueue
 import com.michaelflisar.rxbus2.rx.RxDisposableManager
+import com.umairadil.androidjetpack.R
 import com.umairadil.androidjetpack.models.movies.Movie
 import com.umairadil.androidjetpack.ui.items.MovieItem
+import com.umairadil.androidjetpack.ui.items.ProgressItem
 import com.umairadil.androidjetpack.ui.items.SimilarItem
 import dagger.android.support.AndroidSupportInjection
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -24,16 +29,20 @@ import io.reactivex.processors.BehaviorProcessor
 import org.reactivestreams.Publisher
 import javax.inject.Inject
 
-abstract class BaseFragment : Fragment(), IRxBusQueue, FlexibleAdapter.OnItemClickListener, FlexibleAdapter.OnItemSwipeListener {
+
+abstract class BaseFragment : Fragment(), IRxBusQueue,
+        FlexibleAdapter.OnItemClickListener,
+        FlexibleAdapter.OnItemSwipeListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     //List Adapter
-    private var adapter: FlexibleAdapter<*>? = null
+    var adapter: FlexibleAdapter<*>? = null
     private var layoutManager: LinearLayoutManager? = null
     private var mItems: ArrayList<IFlexible<*>>? = null
     private var isExpanded = false
+    var progressItem = ProgressItem()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -42,7 +51,7 @@ abstract class BaseFragment : Fragment(), IRxBusQueue, FlexibleAdapter.OnItemCli
 
     private val mResumedProcessor = BehaviorProcessor.createDefault(false)
 
-    private val TAG = BaseFragment::class.java.simpleName
+    private val TAG = "BaseFragment"
     var fragmentActions: FragmentActions? = null
 
     init {
@@ -68,7 +77,7 @@ abstract class BaseFragment : Fragment(), IRxBusQueue, FlexibleAdapter.OnItemCli
     /**
      * This will setup list adapter.
      */
-    private fun setUpAdapter(recyclerView: RecyclerView) {
+    fun setUpAdapter(recyclerView: RecyclerView) {
 
         adapter = FlexibleAdapter(mItems, this, true)
         adapter?.setMode(SelectableAdapter.Mode.SINGLE)
@@ -85,6 +94,13 @@ abstract class BaseFragment : Fragment(), IRxBusQueue, FlexibleAdapter.OnItemCli
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator = DefaultItemAnimator()
         adapter?.setSwipeEnabled(true)?.setAutoScrollOnExpand(false)?.setRecursiveCollapse(true)
+    }
+
+    fun setEndlessScroll(scrollListener: FlexibleAdapter.EndlessScrollListener) {
+        (adapter as? FlexibleAdapter<ProgressItem>)
+                ?.setLoadingMoreAtStartUp(false)
+                ?.setEndlessPageSize(20) //Endless is automatically disabled if newItems < 20 (Size of our response from server)
+                ?.setEndlessScrollListener(scrollListener, progressItem)
     }
 
     //List Adapter's Callback
@@ -186,16 +202,8 @@ abstract class BaseFragment : Fragment(), IRxBusQueue, FlexibleAdapter.OnItemCli
      ***/
     fun showOrHideList(recyclerView: RecyclerView, emptyView: View, movieList: List<Movie>) {
 
-        if (movieList.isEmpty()) {
-            recyclerView.visibility = View.GONE
-            emptyView.visibility = View.VISIBLE
-            return
-        } else {
-            recyclerView.visibility = View.VISIBLE
-            emptyView.visibility = View.GONE
-        }
-
-        mItems = arrayListOf<IFlexible<*>>()
+        if (mItems == null)
+            mItems = arrayListOf<IFlexible<*>>()
 
         try {
             var isSelected = true
@@ -207,37 +215,25 @@ abstract class BaseFragment : Fragment(), IRxBusQueue, FlexibleAdapter.OnItemCli
                 movieItem.isSelected = isSelected
                 isSelected = false
 
-                //If is batch
-                /*if (!movie.isSingleTask) {
-
-                    //Parent Item's child list item
-                    for (subTask in movie.subTasksList) {
-                        val subTaskItem = SubTaskItem(subTask)
-                        subTaskItem.screenID = jobViewModel.screenID
-                        movieItem.addSubItem(subTaskItem)
-                    }
-                }*/
+                //TODO Add batch logic here
 
                 //Add Item to List
                 mItems?.add(movieItem)
             }
 
-            setUpAdapter(recyclerView)
-            adapter?.notifyItemRangeInserted(0, mItems?.size!!)
-
-            selectFirstItem()
+            adapter?.updateDataSet(mItems!! as List<Nothing>)
 
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
 
-    /***
-     * This will select first item on list.
-     ***/
-    private fun selectFirstItem() {
-        if (mItems != null && mItems?.isNotEmpty()!!) {
-            onItemClick(adapter?.recyclerView?.getChildAt(0), 0)
+        //Show or Hide list
+        if (adapter?.itemCount == 0) {
+            recyclerView.visibility = View.GONE
+            emptyView.visibility = View.VISIBLE
+        } else {
+            recyclerView.visibility = View.VISIBLE
+            emptyView.visibility = View.GONE
         }
     }
 
@@ -246,24 +242,6 @@ abstract class BaseFragment : Fragment(), IRxBusQueue, FlexibleAdapter.OnItemCli
      ***/
     private fun selectAndShowDetail(position: Int) {
 
-    }
-
-    /***
-     * This will remove an item from list after swiping.
-     ***/
-    fun swipeRemoveItem(position: Int, isParent: Boolean) {
-        try {
-            if (mItems != null && mItems?.isNotEmpty()!!) {
-
-                adapter?.removeItem(position)
-                adapter?.notifyDataSetChanged()
-
-                if (isParent)
-                    mItems?.removeAt(position)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 
     /***
@@ -456,4 +434,33 @@ abstract class BaseFragment : Fragment(), IRxBusQueue, FlexibleAdapter.OnItemCli
         return mResumedProcessor
     }
 
+    // --------------
+    // Commons
+    // --------------
+
+    fun showLoading(progressBar: ProgressBar?, emptyView: View?) {
+        progressBar?.visibility = View.VISIBLE
+        emptyView?.visibility = View.GONE
+        progressBar?.isIndeterminate = true
+    }
+
+    fun hideLoading(progressBar: ProgressBar?, recyclerView: RecyclerView?) {
+
+        //Show layout with animation
+        recyclerView?.animate()
+                ?.alpha(1f)
+                ?.setDuration(resources.getInteger(R.integer.anim_duration_long).toLong())
+                ?.setListener(null)
+
+        //Hide Progress Layout
+        progressBar?.animate()
+                ?.translationY(progressBar.height.toFloat())
+                ?.alpha(0.0f)
+                ?.setDuration(resources.getInteger(R.integer.anim_duration_long).toLong())
+                ?.setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        progressBar.visibility = View.GONE
+                    }
+                })
+    }
 }

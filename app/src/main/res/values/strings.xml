@@ -8,4 +8,10 @@
     <string name="menu_all_movies">Movies</string>
     <string name="menu_fav_movies">Favourites</string>
 
+    <!--General-->
+    <string name="no_more_load_retry">No more items to load. Refresh to retry.</string>
+    <string name="endless_disabled">No more items to load (max reached).</string>
+    <string name="endless_cancel">Cancelled by the user.</string>
+    <string name="endless_error">An error occurred while loading more items.</string>
+
 </resources>

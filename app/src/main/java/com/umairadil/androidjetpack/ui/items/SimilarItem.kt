@@ -20,8 +20,6 @@ import kotlinx.android.synthetic.main.item_similar_movies.view.*
 
 class SimilarItem(val movie: Movie) : AbstractFlexibleItem<SimilarItem.ChildViewHolder>() {
 
-    val TAG = SimilarItem::class.java.simpleName
-
     private val color = R.color.colorPrimaryDark
     var isSelected = false
 

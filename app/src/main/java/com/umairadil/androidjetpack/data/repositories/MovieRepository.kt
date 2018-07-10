@@ -34,36 +34,46 @@ class MovieRepository @Inject public constructor(var movieApi: RestService) : Mo
      **/
     override fun getAllMovies(page: Int): Observable<List<Movie>> {
 
-        //Check if cached movies are not empty
-        if (cachedMovies?.get(page) == null || cachedMovies?.get(page)?.isEmpty()!!) {
-
-            //Provide two observables of different sources
-            return Observables.zip(movieApi.getMovies(page), getCachedMovies(page)) { server, local ->
-
-                //Get Server Response as List
-                val results = server.results as List<Movie>
-                val movies = arrayListOf<Movie>()
-
-                //Add all server response to list
-                if (results.isNotEmpty())
-                    movies.addAll(results)
-
-                //Add all local response to list
-                movies.addAll(local)
-
-                //Save to in memory cache
-                cachedMovies.put(page, movies)
-
-                //Return zipped list
-                movies
-            }
-
+        //If there are no cached movies, fetch movies from server
+        if (cachedMovies?.get(page) == null || cachedMovies?.isEmpty()!!) {
+            return getServerMovies(page)
         } else {
-            return getCachedMovies(page)
-                    .doOnNext {
-                        Timber.i("Cached Movies Size: ${it.size}")
-                    }
+            if (cachedMovies?.containsKey(page)!! && cachedMovies?.isNotEmpty()!!) {
+                return getLocalMovies(page)
+            } else {
+                return getServerMovies(page)
+            }
         }
+    }
+
+    private fun getServerMovies(page: Int): Observable<List<Movie>> {
+        //Provide two observables of different sources
+        return Observables.zip(movieApi.getMovies(page), getCachedMovies(page)) { server, local ->
+
+            //Get Server Response as List
+            val results = server.results as List<Movie>
+            val movies = arrayListOf<Movie>()
+
+            //Add all server response to list
+            if (results.isNotEmpty())
+                movies.addAll(results)
+
+            //Add all local response to list
+            movies.addAll(local)
+
+            //Save to in memory cache
+            cachedMovies?.put(page, movies)
+
+            //Return zipped list
+            movies
+        }
+    }
+
+    private fun getLocalMovies(page: Int): Observable<List<Movie>> {
+        return getCachedMovies(page)
+                .doOnNext {
+                    Timber.i("Cached Movies Size: ${it.size} Page: $page")
+                }
     }
 
     override fun insertMovie(movie: Movie) {

@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.item_movie.view.*
 
 class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHolder>(), IExpandable<MovieItem.ParentViewHolder, SimilarItem> {
 
-    val TAG = MovieItem::class.java.simpleName
     private val color = R.color.colorPrimaryDark
 
     /* subItems list */
