@@ -22,5 +22,6 @@
     <string name="filter_year">Release Year:</string>
     <string name="filter_sort_by">Sort By:</string>
     <string name="filter_genre">Genre:</string>
+    <string name="txt_apply">Apply</string>
 
 </resources>

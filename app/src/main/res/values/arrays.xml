@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--This list will be separated by using deliminator ':'-->
+    <string-array name="array_sort_by">
+        <item>Most Popular:popularity.desc</item>
+        <item>Highest Rated:vote_average.desc</item>
+        <item>Highest Revenue:revenue.desc</item>
+    </string-array>
+
 </resources>

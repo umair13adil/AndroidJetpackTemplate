@@ -33,23 +33,23 @@ class MovieRepository @Inject constructor(private var api: RestService) : MovieD
      *
      * @param page:Int number of page required for paging
      **/
-    override fun getAllMovies(page: Int, year: Int, sortBy: String): Observable<List<Movie>> {
+    override fun getAllMovies(page: Int, year: Int, sortBy: String, genre: Int): Observable<List<Movie>> {
 
         //If there are no cached movies, fetch movies from server
         if (cachedMovies?.get(page) == null || cachedMovies?.isEmpty()!!) {
-            return getServerMovies(page, year, sortBy)
+            return getServerMovies(page, year, sortBy, genre.toString())
         } else {
             if (cachedMovies?.containsKey(page)!! && cachedMovies?.isNotEmpty()!!) {
                 return getLocalMovies(page)
             } else {
-                return getServerMovies(page, year, sortBy)
+                return getServerMovies(page, year, sortBy, genre.toString())
             }
         }
     }
 
-    private fun getServerMovies(page: Int, year: Int, sortBy: String): Observable<List<Movie>> {
+    private fun getServerMovies(page: Int, year: Int, sortBy: String, genre: String): Observable<List<Movie>> {
         //Provide two observables of different sources
-        return Observables.zip(api.getMovies(page, year, sortBy, Constants.API_KEY), getCachedMovies(page)) { server, local ->
+        return Observables.zip(api.getMovies(page, year, sortBy, genre, Constants.API_KEY), getCachedMovies(page)) { server, local ->
 
             //Get Server Response as List
             val results = server.results as List<Movie>
@@ -79,5 +79,9 @@ class MovieRepository @Inject constructor(private var api: RestService) : MovieD
 
     override fun insertMovie(movie: Movie) {
 
+    }
+
+    override fun clearCachedMovies() {
+        cachedMovies?.clear()
     }
 }

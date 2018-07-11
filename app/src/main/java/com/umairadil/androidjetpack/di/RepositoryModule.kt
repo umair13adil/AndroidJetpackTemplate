@@ -1,5 +1,6 @@
 package com.umairadil.androidjetpack.di
 
+import com.umairadil.androidjetpack.data.local.RealmHelper
 import com.umairadil.androidjetpack.data.network.RestService
 import com.umairadil.androidjetpack.data.repositories.main.MainRepository
 import com.umairadil.androidjetpack.data.repositories.movie.MovieRepository
@@ -18,7 +19,7 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMainDataSource(api: RestService): MainRepository {
-        return MainRepository(api)
+    fun provideMainDataSource(api: RestService, db: RealmHelper): MainRepository {
+        return MainRepository(api, db)
     }
 }

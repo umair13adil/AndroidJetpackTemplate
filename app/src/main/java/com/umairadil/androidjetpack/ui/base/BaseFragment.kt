@@ -27,7 +27,6 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.reactivex.processors.BehaviorProcessor
 import org.reactivestreams.Publisher
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -192,7 +191,6 @@ abstract class BaseFragment : Fragment(), IRxBusQueue,
      * This will clear filter from list adapter.
      ***/
     fun clearFilter() {
-        Timber.i("clearFilter")
         if (isAdapterNotEmpty()) {
             adapter?.setFilter(null)
             adapter?.filterItems(mItems!! as List<Nothing>, 350)
@@ -203,7 +201,6 @@ abstract class BaseFragment : Fragment(), IRxBusQueue,
      * This will set filter to list adapter.
      ***/
     fun setFilter(query: String) {
-        Timber.i("setFilter: $query")
         if (isAdapterNotEmpty()) {
             if (adapter?.hasNewFilter(query)!!) {
                 adapter?.setFilter(query)

@@ -4,6 +4,7 @@ import com.umairadil.androidjetpack.ui.base.BaseActivity
 import com.umairadil.androidjetpack.ui.base.BaseFragment
 import com.umairadil.androidjetpack.ui.main.MainActivity
 import com.umairadil.androidjetpack.ui.movies.MoviesFragment
+import com.umairadil.androidjetpack.ui.movies.dialog.MovieFilterDialog
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -47,6 +48,9 @@ internal abstract class BindingModule {
      ** Dialogs
      ****************************/
 
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun movieFilterDialog(): MovieFilterDialog
 
     /****************************
      ** Services

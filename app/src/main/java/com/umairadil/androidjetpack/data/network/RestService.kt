@@ -15,6 +15,7 @@ interface RestService {
     fun getMovies(@Query("page") page: Int,
                   @Query("primary_release_year") release_year: Int,
                   @Query("sort_by") sort_by: String,
+                  @Query("with_genres") genre: String,
                   @Query("api_key") api_key: String
     ): Observable<MovieListResponse>
 

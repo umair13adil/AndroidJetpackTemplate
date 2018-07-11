@@ -61,4 +61,16 @@ class Utils {
 
         }
     }
+
+    @NonNull
+    fun getSeparatedValues(@NonNull input: String, @NonNull deliminator: String): List<String> {
+        val stringList = arrayListOf<String>()
+
+        val v = input.split(deliminator.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        for (i in v.indices) {
+            stringList.add(v[i])
+        }
+
+        return stringList
+    }
 }

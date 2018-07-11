@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.michaelflisar.rxbus2.RxBusBuilder
 import com.michaelflisar.rxbus2.rx.RxBusMode
 import com.umairadil.androidjetpack.R
+import com.umairadil.androidjetpack.models.rxbus.FilterOptions
 import com.umairadil.androidjetpack.models.search.SearchQuery
 import com.umairadil.androidjetpack.ui.base.BaseFragment
 import com.umairadil.androidjetpack.utils.Constants
@@ -48,10 +49,10 @@ class MoviesFragment : BaseFragment() {
 
             override fun onLoadMore(lastPosition: Int, currentPage: Int) {
 
-                Timber.i("Load page number: ${currentPage + 1}")
+                viewModel.currentPage = currentPage + 1
 
                 //Get page of movies list
-                getMovies(currentPage + 1)
+                getMovies(viewModel.currentPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
             }
         }
 
@@ -59,7 +60,7 @@ class MoviesFragment : BaseFragment() {
         setEndlessScroll(scrollListener)
 
         //Get first page of movies list
-        getMovies(1)
+        getMovies(viewModel.currentPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
 
         //Listen for search query
         RxBusBuilder.create(SearchQuery::class.java)
@@ -67,6 +68,25 @@ class MoviesFragment : BaseFragment() {
                 .withMode(RxBusMode.Main)
                 .subscribe { data ->
                     filterData(data.query)
+                }
+
+        //Listen for filter query
+        RxBusBuilder.create(FilterOptions::class.java)
+                .withQueuing(this)
+                .withMode(RxBusMode.Main)
+                .subscribe { data ->
+                    viewModel.defaultYear = data.year
+                    viewModel.defaultSort = data.sortBy
+                    viewModel.defaultGenre = data.genre
+
+                    //Clear previous list data
+                    clearListData()
+
+                    //Clear all cached movies
+                    viewModel.clearCachedMovies()
+
+                    //Get page of movies list
+                    getMovies(viewModel.currentPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
                 }
     }
 
@@ -81,12 +101,11 @@ class MoviesFragment : BaseFragment() {
             }
 
         } else {
-            Timber.i("getMovies")
-            getMovies(1)
+            getMovies(viewModel.currentPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
         }
     }
 
-    private fun getMovies(page: Int) {
+    private fun getMovies(page: Int, year: Int, sortBy: String, genre: Int) {
 
         //Do nothing if page is less than 1
         if (page < 1)
@@ -102,7 +121,7 @@ class MoviesFragment : BaseFragment() {
         showLoading(progress_bar, empty_view)
 
         //This will call API or fetch from local repository
-        viewModel.getMovies(page, 2010, "")
+        viewModel.getMovies(page, year, sortBy, genre)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(  // named arguments for lambda Subscribers

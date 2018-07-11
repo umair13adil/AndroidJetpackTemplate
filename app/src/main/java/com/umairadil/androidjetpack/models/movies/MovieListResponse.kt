@@ -14,5 +14,6 @@ class MovieListResponse {
     @SerializedName("total_pages")
     var totalPages: Int = 0
 
+    @SerializedName("results")
     var results: ArrayList<Movie>? = null
 }

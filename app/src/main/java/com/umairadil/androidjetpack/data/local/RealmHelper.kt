@@ -1,15 +1,10 @@
 package com.umairadil.androidjetpack.data.local
 
-import android.content.Context
 import io.realm.Realm
 import io.realm.RealmObject
-import javax.inject.Inject
 
 
 class RealmHelper {
-
-    @Inject
-    lateinit var context: Context
 
     private fun getRealmInstance(): Realm {
         return Realm.getDefaultInstance()

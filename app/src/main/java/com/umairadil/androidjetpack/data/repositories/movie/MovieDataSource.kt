@@ -5,7 +5,9 @@ import io.reactivex.Observable
 
 interface MovieDataSource {
 
+    fun clearCachedMovies()
+
     fun insertMovie(movie: Movie)
 
-    fun getAllMovies(page: Int, year: Int, sortBy: String): Observable<List<Movie>>
+    fun getAllMovies(page: Int, year: Int, sortBy: String, genre: Int): Observable<List<Movie>>
 }

@@ -1,8 +1,10 @@
 package com.umairadil.androidjetpack.models.genre
 
+import com.google.gson.annotations.SerializedName
 import java.util.*
 
 class GenreListResponse {
 
-    var results: ArrayList<Genre>? = null
+    @SerializedName("genres")
+    var genres: ArrayList<Genre>? = null
 }
