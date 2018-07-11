@@ -102,7 +102,7 @@ class MoviesFragment : BaseFragment() {
         showLoading(progress_bar, empty_view)
 
         //This will call API or fetch from local repository
-        viewModel.getMovies(page)
+        viewModel.getMovies(page, 2010, "")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(  // named arguments for lambda Subscribers

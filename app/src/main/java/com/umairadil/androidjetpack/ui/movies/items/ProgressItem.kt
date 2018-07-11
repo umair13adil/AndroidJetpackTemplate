@@ -1,4 +1,4 @@
-package com.umairadil.androidjetpack.ui.items
+package com.umairadil.androidjetpack.ui.movies.items
 
 import android.animation.Animator
 import android.support.v7.widget.RecyclerView

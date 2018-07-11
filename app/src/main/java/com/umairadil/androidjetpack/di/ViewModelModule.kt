@@ -3,6 +3,7 @@ package com.umairadil.androidjetpack.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.umairadil.androidjetpack.ui.detail.DetailViewModel
+import com.umairadil.androidjetpack.ui.main.MainViewModel
 import com.umairadil.androidjetpack.ui.movies.MoviesViewModel
 import dagger.Binds
 import dagger.Module
@@ -25,6 +26,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DetailViewModel::class)
     abstract fun bindDetailViewModel(viewModel: DetailViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
 
     @Binds
     abstract fun provideViewModelFactory(factory: MyViewModelFactory): ViewModelProvider.Factory

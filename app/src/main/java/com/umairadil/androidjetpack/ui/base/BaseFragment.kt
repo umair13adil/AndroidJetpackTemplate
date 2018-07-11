@@ -17,9 +17,9 @@ import com.michaelflisar.rxbus2.interfaces.IRxBusQueue
 import com.michaelflisar.rxbus2.rx.RxDisposableManager
 import com.umairadil.androidjetpack.R
 import com.umairadil.androidjetpack.models.movies.Movie
-import com.umairadil.androidjetpack.ui.items.MovieItem
-import com.umairadil.androidjetpack.ui.items.ProgressItem
-import com.umairadil.androidjetpack.ui.items.SimilarItem
+import com.umairadil.androidjetpack.ui.movies.items.MovieItem
+import com.umairadil.androidjetpack.ui.movies.items.ProgressItem
+import com.umairadil.androidjetpack.ui.movies.items.SimilarItem
 import dagger.android.support.AndroidSupportInjection
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.SelectableAdapter

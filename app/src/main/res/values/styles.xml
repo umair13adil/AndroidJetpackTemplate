@@ -35,7 +35,7 @@
     </style>
 
     <style name="TextTitleStyle.Large">
-        <item name="android:textColor">@color/colorTextDark</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize">@dimen/txt_size_16</item>
         <item name="android:gravity">start</item>
         <item name="android:textStyle">bold</item>
@@ -43,7 +43,7 @@
     </style>
 
     <style name="TextTitleStyle.Medium">
-        <item name="android:textColor">@color/colorTextDark</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize">@dimen/txt_size_12</item>
         <item name="android:gravity">start</item>
         <item name="android:paddingLeft">@dimen/margin_10</item>

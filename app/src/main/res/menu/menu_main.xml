@@ -4,8 +4,15 @@
     tools:context=".ui.main.MainActivity">
 
     <item
+        android:id="@+id/action_filter"
+        android:icon="@drawable/ic_filter_list"
+        android:title="@string/filter"
+        android:animateLayoutChanges="true"
+        app:showAsAction="always|collapseActionView" />
+
+    <item
         android:id="@+id/action_search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_search"
         android:title="@string/search_hint"
         android:animateLayoutChanges="true"
         app:actionViewClass="android.support.v7.widget.SearchView"

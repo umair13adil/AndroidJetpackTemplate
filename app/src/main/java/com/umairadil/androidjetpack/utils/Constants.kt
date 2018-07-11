@@ -4,8 +4,9 @@ object Constants {
 
     //String base_url="https://api.themoviedb.org/3/discover/movie?primary_release_year=2010&sort_by=vote_average.desc&api_key=e95c5c33d38a6be5f25c91d64c8d80e0&page=1";
 
-    var BASE_URL_API = "https://api.themoviedb.org/3/discover/"
+    var BASE_URL_API = "https://api.themoviedb.org/3/"
     var BASE_URL_IMAGE = "https://image.tmdb.org/t/p/w500/"
+    val API_KEY = "e95c5c33d38a6be5f25c91d64c8d80e0"
 
     //Font Types
     val FONT_ROBOTO_BLACK = 0

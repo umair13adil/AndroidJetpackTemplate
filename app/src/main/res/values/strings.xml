@@ -16,5 +16,11 @@
 
     <!--Search-->
     <string name="search_hint">Enter movie name to search</string>
+    <string name="filter">Filter Movies</string>
+
+    <!--Filter-->
+    <string name="filter_year">Release Year:</string>
+    <string name="filter_sort_by">Sort By:</string>
+    <string name="filter_genre">Genre:</string>
 
 </resources>

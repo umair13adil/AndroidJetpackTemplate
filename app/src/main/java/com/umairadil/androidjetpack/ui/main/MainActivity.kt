@@ -1,8 +1,10 @@
 package com.umairadil.androidjetpack.ui.main
 
 import android.app.SearchManager
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.widget.SearchView
 import android.view.Menu
@@ -14,6 +16,7 @@ import com.michaelflisar.rxbus2.RxBus
 import com.umairadil.androidjetpack.R
 import com.umairadil.androidjetpack.models.search.SearchQuery
 import com.umairadil.androidjetpack.ui.base.BaseActivity
+import com.umairadil.androidjetpack.ui.movies.dialog.MovieFilterDialog
 import com.umairadil.androidjetpack.utils.Constants
 import com.umairadil.androidjetpack.utils.Utils
 import kotlinx.android.synthetic.main.main_activity.*
@@ -21,9 +24,15 @@ import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : BaseActivity() {
 
+    private lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+
+        viewModel.setUpGenres()
 
         val navController = Navigation.findNavController(this, R.id.movies_fragment)
 
@@ -52,6 +61,8 @@ class MainActivity : BaseActivity() {
         inflater.inflate(R.menu.menu_main, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
+        val filterItem = menu.findItem(R.id.action_filter)
+
         searchItem.isVisible = true
 
         searchItem.setOnMenuItemClickListener {
@@ -85,6 +96,12 @@ class MainActivity : BaseActivity() {
                     return false
                 }
             })
+            true
+        }
+
+        filterItem.setOnMenuItemClickListener {
+            val dialog: DialogFragment = MovieFilterDialog()
+            dialog.show(supportFragmentManager, "filterDialog")
             true
         }
 

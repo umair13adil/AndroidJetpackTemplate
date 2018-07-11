@@ -1,5 +1,6 @@
 package com.umairadil.androidjetpack.ui.base
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -21,6 +22,9 @@ abstract class BaseActivity : AppCompatActivity(), IRxBusQueue, HasSupportFragme
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return dispatchingAndroidInjector
     }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val mResumedProcessor = BehaviorProcessor.createDefault(false)
 

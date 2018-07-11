@@ -1,7 +1,6 @@
 package com.umairadil.androidjetpack.di
 
 import com.umairadil.androidjetpack.App
-import com.umairadil.androidjetpack.ui.base.BaseActivity
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -17,8 +16,6 @@ import javax.inject.Singleton
         RepositoryModule::class
 ))
 interface AppComponent {
-
-    fun inject(baseActivity: BaseActivity)
 
     @Component.Builder
     interface Builder {
