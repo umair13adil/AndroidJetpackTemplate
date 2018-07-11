@@ -13,8 +13,8 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMovieDataSource(api: RestService): MovieRepository {
-        return MovieRepository(api)
+    fun provideMovieDataSource(api: RestService, db: RealmHelper): MovieRepository {
+        return MovieRepository(api,db)
     }
 
     @Provides

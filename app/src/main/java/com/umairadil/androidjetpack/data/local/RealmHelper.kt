@@ -7,7 +7,11 @@ import io.realm.RealmObject
 class RealmHelper {
 
     private fun getRealmInstance(): Realm {
-        return Realm.getDefaultInstance()
+        try {
+            return Realm.getDefaultInstance()
+        } catch (e: Exception) {
+            return Realm.getDefaultInstance()
+        }
     }
 
     fun <T : RealmObject> add(model: T): T {

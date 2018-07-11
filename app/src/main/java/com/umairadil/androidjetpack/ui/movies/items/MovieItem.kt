@@ -118,8 +118,8 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
 
         holder.title.setText(movie.originalTitle)
         holder.overview.setText(movie.overview)
-        holder.popularity.setText(movie.popularity.toString())
-
+        holder.genre.setText(movie.genreNames?.joinToString())
+        holder.year.setText(Utils.getInstance().formatDate(movie.releaseDate.toString()))
 
         Picasso.with(holder.itemView.context).load(Constants.BASE_URL_IMAGE + movie.posterPath).into(holder.poster)
 
@@ -141,7 +141,8 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
 
         val title: AppCompatTextView
         val overview: AppCompatTextView
-        val popularity: AppCompatTextView
+        val genre: AppCompatTextView
+        val year: AppCompatTextView
         val poster: AppCompatImageView
 
         var fView: View
@@ -155,7 +156,8 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
         init {
             this.title = view.txt_movie_title
             this.overview = view.txt_description
-            this.popularity = view.txt_popularity
+            this.genre = view.txt_popularity
+            this.year = view.txt_year
             this.poster = view.img_movie_poster
 
             this.fView = view.front_view
@@ -167,7 +169,8 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
             //Apply Fonts
             title.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_BOLD, itemView.context)
             overview.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_REGULAR, itemView.context)
-            popularity.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_REGULAR, itemView.context)
+            genre.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_BOLD, itemView.context)
+            year.typeface = Utils.getInstance().setTypeface(Constants.FONT_ROBOTO_BOLD, itemView.context)
 
         }
 
@@ -216,7 +219,7 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
         holder.frontView.setBackgroundColor(ContextCompat.getColor(context, color))
         holder.title.setTextColor(ContextCompat.getColor(context, colorContent))
         holder.overview.setTextColor(ContextCompat.getColor(context, colorContent))
-        holder.popularity.setTextColor(ContextCompat.getColor(context, colorContent))
+        holder.genre.setTextColor(ContextCompat.getColor(context, colorContent))
     }
 
     private fun clearSelection(holder: ParentViewHolder) {
@@ -225,7 +228,7 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
         holder.frontView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
         holder.title.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
         holder.overview.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
-        holder.popularity.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+        holder.genre.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
     }
 
 }

@@ -13,7 +13,7 @@ class TV {
     @SerializedName("name")
     private val name: String? = null
 
-    @SerializedName("popularity")
+    @SerializedName("genre")
     private val popularity: Double? = null
 
     @SerializedName("origin_country")

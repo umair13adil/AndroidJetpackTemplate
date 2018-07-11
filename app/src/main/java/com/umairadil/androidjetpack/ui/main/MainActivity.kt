@@ -18,7 +18,6 @@ import com.umairadil.androidjetpack.models.search.SearchQuery
 import com.umairadil.androidjetpack.ui.base.BaseActivity
 import com.umairadil.androidjetpack.ui.movies.dialog.MovieFilterDialog
 import com.umairadil.androidjetpack.utils.Constants
-import com.umairadil.androidjetpack.utils.Utils
 import kotlinx.android.synthetic.main.main_activity.*
 
 
@@ -109,15 +108,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        Utils.getInstance().hideKeyboard(this)
-
-        if (id == android.R.id.home) {
-            onBackPressed()
-            return true
-        }
-
         return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(this, R.id.movies_fragment)) || super.onOptionsItemSelected(item)
     }
 

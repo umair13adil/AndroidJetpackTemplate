@@ -19,7 +19,6 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.empty_view.*
 import kotlinx.android.synthetic.main.movie_fragment.*
-import timber.log.Timber
 
 class MoviesFragment : BaseFragment() {
 
@@ -60,7 +59,7 @@ class MoviesFragment : BaseFragment() {
         setEndlessScroll(scrollListener)
 
         //Get first page of movies list
-        getMovies(viewModel.currentPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
+        getMovies(viewModel.firstPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
 
         //Listen for search query
         RxBusBuilder.create(SearchQuery::class.java)
@@ -86,7 +85,7 @@ class MoviesFragment : BaseFragment() {
                     viewModel.clearCachedMovies()
 
                     //Get page of movies list
-                    getMovies(viewModel.currentPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
+                    getMovies(viewModel.firstPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
                 }
     }
 
@@ -113,7 +112,6 @@ class MoviesFragment : BaseFragment() {
 
         //Do nothing if filter is applied
         if (adapter?.hasFilter()!!) {
-            Timber.i("hasFilter")
             return
         }
 

@@ -115,20 +115,32 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
-                                android:lines="2"
+                                android:maxLines="3"
                                 android:text="Description"
                                 android:textSize="@dimen/txt_size_12"
                                 android:visibility="visible" />
 
                             <android.support.v7.widget.AppCompatTextView
                                 android:id="@+id/txt_popularity"
-                                style="@style/TextTitleStyle.Medium"
+                                style="@style/TextTitleStyle.Focused"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:gravity="start"
                                 android:lines="1"
-                                android:text="Genere"
+                                android:text="Genre"
+                                android:textSize="@dimen/txt_size_10"
+                                android:visibility="visible" />
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/txt_year"
+                                style="@style/TextTitleStyle.Focused"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:gravity="end"
+                                android:lines="1"
+                                android:text="Year"
                                 android:textSize="@dimen/txt_size_10"
                                 android:visibility="visible" />
 

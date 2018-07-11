@@ -16,7 +16,9 @@ interface RestService {
                   @Query("primary_release_year") release_year: Int,
                   @Query("sort_by") sort_by: String,
                   @Query("with_genres") genre: String,
-                  @Query("api_key") api_key: String
+                  @Query("api_key") api_key: String,
+                  @Query("include_video") includeVideo: Boolean,
+                  @Query("include_adult") filterAdult: Boolean
     ): Observable<MovieListResponse>
 
     //Get List of TV Shows

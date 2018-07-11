@@ -20,7 +20,7 @@ public class Movie {
     @SerializedName("title")
     var title: String? = null
 
-    @SerializedName("popularity")
+    @SerializedName("genre")
     var popularity: Double = 0.toDouble()
 
     @SerializedName("poster_path")
@@ -46,4 +46,6 @@ public class Movie {
 
     @SerializedName("release_date")
     var releaseDate: String? = null
+
+    var genreNames: ArrayList<String>? = null
 }

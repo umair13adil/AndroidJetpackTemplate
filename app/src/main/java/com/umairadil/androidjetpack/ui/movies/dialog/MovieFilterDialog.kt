@@ -13,8 +13,11 @@ import com.umairadil.androidjetpack.R
 import com.umairadil.androidjetpack.data.local.MovieGenre
 import com.umairadil.androidjetpack.data.local.RealmHelper
 import com.umairadil.androidjetpack.models.rxbus.FilterOptions
+import com.umairadil.androidjetpack.utils.Constants
+import com.umairadil.androidjetpack.utils.Preferences
 import com.umairadil.androidjetpack.utils.Utils
 import dagger.android.support.AndroidSupportInjection
+import io.realm.Realm
 import kotlinx.android.synthetic.main.dialog_movie_filter.view.*
 import java.util.*
 import javax.inject.Inject
@@ -51,6 +54,11 @@ class MovieFilterDialog : DialogFragment() {
         setGenreSpinner(view)
 
         view?.btn_apply?.setOnClickListener {
+
+            //Save Filter Options
+            Preferences.getInstance().save(activity!!, Constants.PREF_GENRE, genre)
+            Preferences.getInstance().save(activity!!, Constants.PREF_YEAR, year)
+
             RxBus.get().withSendToDefaultBus().send(FilterOptions(year, sortBy, genre))
             dismiss()
         }
@@ -67,11 +75,16 @@ class MovieFilterDialog : DialogFragment() {
         }
         val adapter = ArrayAdapter<Int>(activity, android.R.layout.simple_spinner_item, list)
         view?.spinner_year?.adapter = adapter
-        view?.spinner_year?.setSelection(list.lastIndex)
+
+        //Get Saved filter value
+        val saved = Preferences.getInstance().getInt(activity!!, Constants.PREF_YEAR, thisYear)
+        val index = list.binarySearch(saved)
+
+        view?.spinner_year?.setSelection(index)
         view?.spinner_year?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                year = thisYear
+                year = saved
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -84,22 +97,32 @@ class MovieFilterDialog : DialogFragment() {
         val list = resources.getStringArray(R.array.array_sort_by)
 
         val sortByList = arrayListOf<String>()
+        val seperatedList = arrayListOf<String>()
 
         for (item in list) {
             val separated = Utils.getInstance().getSeparatedValues(item, ":")
-            sortByList.add(separated.get(0))
+            sortByList.add(separated.get(0)) //Sort By Name
+            seperatedList.add(separated.get(0)) //Sort By Key
         }
+
+        //Get Saved filter value
+        val saved = Preferences.getInstance().getString(activity!!, Constants.PREF_SORT)
+        val index = seperatedList.binarySearch { String.CASE_INSENSITIVE_ORDER.compare(it, saved) }
 
         val adapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, sortByList)
         view?.spinner_sort_by?.adapter = adapter
+        view?.spinner_sort_by?.setSelection(index)
         view?.spinner_sort_by?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                sortBy = ""
+                val separated = Utils.getInstance().getSeparatedValues(list.first(), ":")
+                Preferences.getInstance().save(activity!!, Constants.PREF_SORT, separated.get(0))
+                sortBy = separated.get(1)
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val separated = Utils.getInstance().getSeparatedValues(list.get(p2), ":")
+                Preferences.getInstance().save(activity!!, Constants.PREF_SORT, separated.get(0))
                 sortBy = separated.get(1)
             }
         }
@@ -108,7 +131,7 @@ class MovieFilterDialog : DialogFragment() {
 
     private fun setGenreSpinner(view: View?) {
 
-        val list = db.findAll(MovieGenre().javaClass)
+        val list = Realm.getDefaultInstance().copyFromRealm(db.findAll(MovieGenre().javaClass)).sortedBy { it.id }
 
         if (list.isEmpty())
             return
@@ -119,12 +142,17 @@ class MovieFilterDialog : DialogFragment() {
             names.add(genre.name!!)
         }
 
+        //Get Saved filter value
+        val saved = Preferences.getInstance().getInt(activity!!, Constants.PREF_GENRE, genre)
+        val index = list.binarySearch { String.CASE_INSENSITIVE_ORDER.compare(it.id.toString(), saved.toString()) }
+
         val adapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, names)
         view?.spinner_genre?.adapter = adapter
+        view?.spinner_genre?.setSelection(index)
         view?.spinner_genre?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
-
+                genre = saved
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

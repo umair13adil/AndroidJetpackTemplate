@@ -4,8 +4,16 @@
     <!--This list will be separated by using deliminator ':'-->
     <string-array name="array_sort_by">
         <item>Most Popular:popularity.desc</item>
+        <item>Least Popular:popularity.asc</item>
         <item>Highest Rated:vote_average.desc</item>
+        <item>Lowest Rated:vote_average.asc</item>
         <item>Highest Revenue:revenue.desc</item>
+        <item>Lowest Revenue:revenue.asc</item>
+        <item>Latest Releases:release_date.desc</item>
+        <item>Oldest Releases:release_date.asc</item>
+        <item>Titles [A-Z]:original_title.asc</item>
+        <item>Titles [Z-A]:original_title.desc</item>
+        <item>Primary Release Latest:primary_release_date.desc</item>
+        <item>Primary Release Oldest:primary_release_date.asc</item>
     </string-array>
-
 </resources>

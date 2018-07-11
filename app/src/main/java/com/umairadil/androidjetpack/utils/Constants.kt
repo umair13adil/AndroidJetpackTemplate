@@ -30,4 +30,9 @@ object Constants {
 
     //Search
     const val CLEAR_SEARCH = "%clear1%"
+
+    //Filters
+    const val PREF_YEAR = "pref_year"
+    const val PREF_SORT = "pref_sort"
+    const val PREF_GENRE = "pref_genre"
 }

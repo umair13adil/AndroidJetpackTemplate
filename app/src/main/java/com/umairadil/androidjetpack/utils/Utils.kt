@@ -5,6 +5,9 @@ import android.content.Context
 import android.graphics.Typeface
 import android.view.inputmethod.InputMethodManager
 import io.reactivex.annotations.NonNull
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Utils {
 
@@ -72,5 +75,21 @@ class Utils {
         }
 
         return stringList
+    }
+
+
+    fun formatDate(date: String): String {
+        var dateFormatted = ""
+        var spf = SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH)
+        var newDate: Date? = null
+        try {
+            newDate = spf.parse(date)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+
+        spf = SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH)
+        dateFormatted = spf.format(newDate)
+        return "Released: $dateFormatted"
     }
 }

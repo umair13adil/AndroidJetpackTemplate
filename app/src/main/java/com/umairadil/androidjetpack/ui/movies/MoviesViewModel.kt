@@ -13,7 +13,8 @@ class MoviesViewModel @Inject constructor(private var movieRepository: MovieRepo
     var defaultYear = Calendar.getInstance().get(Calendar.YEAR)
     var defaultSort = ""
     var defaultGenre = 18
-    var currentPage = 1
+    var currentPage = 0
+    var firstPage = 1
 
     fun getMovies(page: Int, year: Int, sortBy: String, genre: Int): Observable<List<Movie>> {
         return movieRepository.getAllMovies(page, year, sortBy, genre)
