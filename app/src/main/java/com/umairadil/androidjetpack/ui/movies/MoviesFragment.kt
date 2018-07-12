@@ -66,7 +66,7 @@ class MoviesFragment : BaseFragment() {
                 .withQueuing(this)
                 .withMode(RxBusMode.Main)
                 .subscribe { data ->
-                    filterData(data.query)
+                    filterData(data.query, data.action)
                 }
 
         //Listen for filter query
@@ -89,18 +89,25 @@ class MoviesFragment : BaseFragment() {
                 }
     }
 
-    private fun filterData(query: String) {
+    private fun filterData(query: String, action: String) {
 
-        if (query != Constants.CLEAR_SEARCH) {
+        when(action){
 
-            if (!TextUtils.isEmpty(query)) {
-                setFilter(query)
-            } else {
-                clearFilter()
+            Constants.CLEAR_SEARCH -> {
+                getMovies(viewModel.currentPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
             }
 
-        } else {
-            getMovies(viewModel.currentPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
+            Constants.SEARCH_QUERY_SUBMITTED -> {
+                searchMovies(viewModel.firstPage, query)
+            }
+
+            Constants.SEARCH_AND_FILTER -> {
+                if (!TextUtils.isEmpty(query)) {
+                    setFilter(query)
+                } else {
+                    clearFilter()
+                }
+            }
         }
     }
 
@@ -115,18 +122,16 @@ class MoviesFragment : BaseFragment() {
             return
         }
 
-        //Show ProgressBar
-        showLoading(progress_bar, empty_view)
-
         //This will call API or fetch from local repository
         viewModel.getMovies(page, year, sortBy, genre)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    //Show ProgressBar
+                    showLoading(progress_bar, empty_view)
+                }
                 .subscribeBy(  // named arguments for lambda Subscribers
                         onNext = {
-
-                            //Hide ProgressBar
-                            hideLoading(progress_bar, recycler_view)
 
                             //Add data to list adapter
                             showOrHideList(recycler_view, empty_view, it)
@@ -135,7 +140,40 @@ class MoviesFragment : BaseFragment() {
                             it.printStackTrace()
 
                         },
-                        onComplete = { }
+                        onComplete = {
+                            //Hide ProgressBar
+                            hideLoading(progress_bar, recycler_view)
+                        }
+                )
+    }
+
+    private fun searchMovies(page: Int, query: String) {
+
+        //This will call API to search for movies
+        viewModel.searchMovies(page, query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe {
+                    //Show ProgressBar
+                    showLoading(progress_bar, empty_view)
+                }
+                .subscribeBy(  // named arguments for lambda Subscribers
+                        onNext = {
+
+                            //Clear previous list data
+                            clearListData()
+
+                            //Add data to list adapter
+                            showOrHideList(recycler_view, empty_view, it.results!!)
+                        },
+                        onError = {
+                            it.printStackTrace()
+
+                        },
+                        onComplete = {
+                            //Hide ProgressBar
+                            hideLoading(progress_bar, recycler_view)
+                        }
                 )
     }
 }

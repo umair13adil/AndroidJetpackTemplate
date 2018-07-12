@@ -88,7 +88,7 @@ abstract class BaseFragment : Fragment(), IRxBusQueue,
                 ?.setAnimationOnForwardScrolling(false)
                 ?.setAnimationOnReverseScrolling(false)
 
-        layoutManager = SmoothScrollLinearLayoutManager(context)
+        layoutManager = SmoothScrollLinearLayoutManager(activity)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)

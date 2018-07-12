@@ -3,6 +3,7 @@ package com.umairadil.androidjetpack.ui.movies
 import android.arch.lifecycle.ViewModel
 import com.umairadil.androidjetpack.data.repositories.movie.MovieRepository
 import com.umairadil.androidjetpack.models.movies.Movie
+import com.umairadil.androidjetpack.models.movies.MovieListResponse
 import io.reactivex.Observable
 import java.util.*
 import javax.inject.Inject
@@ -20,7 +21,11 @@ class MoviesViewModel @Inject constructor(private var movieRepository: MovieRepo
         return movieRepository.getAllMovies(page, year, sortBy, genre)
     }
 
-    fun clearCachedMovies(){
+    fun searchMovies(page: Int, query: String): Observable<MovieListResponse> {
+        return movieRepository.searchMovies(page, query)
+    }
+
+    fun clearCachedMovies() {
         movieRepository.clearCachedMovies()
     }
 }

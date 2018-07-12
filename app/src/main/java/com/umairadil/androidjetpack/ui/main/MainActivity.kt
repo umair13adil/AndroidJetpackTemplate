@@ -19,6 +19,7 @@ import com.umairadil.androidjetpack.ui.base.BaseActivity
 import com.umairadil.androidjetpack.ui.movies.dialog.MovieFilterDialog
 import com.umairadil.androidjetpack.utils.Constants
 import kotlinx.android.synthetic.main.main_activity.*
+import timber.log.Timber
 
 
 class MainActivity : BaseActivity() {
@@ -64,6 +65,22 @@ class MainActivity : BaseActivity() {
 
         searchItem.isVisible = true
 
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                Timber.i("onMenuItemActionCollapse")
+
+                //Send 'CLEAR SEARCH' value to clear filter
+                RxBus.get().send(SearchQuery("", Constants.CLEAR_SEARCH))
+
+                return true
+            }
+
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                Timber.i("onMenuItemActionExpand")
+                return true
+            }
+        })
+
         searchItem.setOnMenuItemClickListener {
 
             val searchView = searchItem.actionView.findViewById<SearchView>(R.id.action_search) as SearchView
@@ -81,8 +98,8 @@ class MainActivity : BaseActivity() {
                     searchItem.collapseActionView()
                     searchView.clearFocus()
 
-                    //Send 'CLEAR SEARCH' value to clear filter
-                    RxBus.get().send(SearchQuery(Constants.CLEAR_SEARCH))
+                    //Send 'QUERY SUBMITTED' flag to call search API
+                    RxBus.get().send(SearchQuery(query, Constants.SEARCH_QUERY_SUBMITTED))
 
                     return false
                 }
@@ -90,7 +107,7 @@ class MainActivity : BaseActivity() {
                 override fun onQueryTextChange(s: String): Boolean {
 
                     //Send search query to subscribers
-                    RxBus.get().send(SearchQuery(s))
+                    RxBus.get().send(SearchQuery(s, Constants.SEARCH_AND_FILTER))
 
                     return false
                 }

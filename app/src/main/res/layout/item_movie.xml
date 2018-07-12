@@ -28,10 +28,10 @@
                     android:id="@+id/rear_right_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorWhite"
+                    android:background="@color/colorPrimary"
                     android:visibility="gone">
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/right_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/margin_15"
                         android:layout_marginRight="@dimen/margin_15"
-                        android:src="@drawable/ic_user" />
+                        app:srcCompat="@drawable/ic_favorite_empty" />
 
                 </RelativeLayout>
 
@@ -48,10 +48,10 @@
                     android:id="@+id/rear_left_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorWhite"
+                    android:background="@color/colorPrimary"
                     android:visibility="gone">
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/left_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/margin_15"
                         android:layout_marginLeft="@dimen/margin_15"
-                        android:src="@drawable/ic_user" />
+                        app:srcCompat="@drawable/ic_favorite_empty" />
 
                 </RelativeLayout>
 
@@ -115,7 +115,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
-                                android:maxLines="3"
+                                android:maxLines="4"
                                 android:text="Description"
                                 android:textSize="@dimen/txt_size_12"
                                 android:visibility="visible" />
@@ -144,6 +144,17 @@
                                 android:textSize="@dimen/txt_size_10"
                                 android:visibility="visible" />
 
+                            <RatingBar
+                                android:id="@+id/rating_movie"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:isIndicator="true"
+                                android:numStars="5"
+                                android:stepSize="0.1"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:layout_marginRight="@dimen/margin_10"/>
+
                         </LinearLayout>
 
                         <!--</RelativeLayout>-->
@@ -158,4 +169,5 @@
 
 
     </FrameLayout>
+
 </LinearLayout>

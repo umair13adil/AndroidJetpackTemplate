@@ -4,6 +4,7 @@ import com.umairadil.androidjetpack.data.local.MovieGenre
 import com.umairadil.androidjetpack.data.local.RealmHelper
 import com.umairadil.androidjetpack.data.network.RestService
 import com.umairadil.androidjetpack.models.movies.Movie
+import com.umairadil.androidjetpack.models.movies.MovieListResponse
 import com.umairadil.androidjetpack.utils.Constants
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -115,5 +116,9 @@ class MovieRepository @Inject constructor(private var api: RestService, private 
         }
 
         return moviesList
+    }
+
+    override fun searchMovies(page: Int, query: String): Observable<MovieListResponse> {
+        return api.searchMovies(page, query, Constants.API_KEY)
     }
 }

@@ -29,7 +29,9 @@ object Constants {
     val FONT_ROBOTO_CONDENSED_REGULAR = 17
 
     //Search
+    const val SEARCH_AND_FILTER = "%filter1%"
     const val CLEAR_SEARCH = "%clear1%"
+    const val SEARCH_QUERY_SUBMITTED = "%query1%"
 
     //Filters
     const val PREF_YEAR = "pref_year"

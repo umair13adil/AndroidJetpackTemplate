@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.ImageView
+import android.widget.RatingBar
 import com.squareup.picasso.Picasso
 import com.umairadil.androidjetpack.R
 import com.umairadil.androidjetpack.models.movies.Movie
@@ -120,6 +121,7 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
         holder.overview.setText(movie.overview)
         holder.genre.setText(movie.genreNames?.joinToString())
         holder.year.setText(Utils.getInstance().formatDate(movie.releaseDate.toString()))
+        holder.rating.rating = movie.voteAverage.toFloat()
 
         Picasso.with(holder.itemView.context).load(Constants.BASE_URL_IMAGE + movie.posterPath).into(holder.poster)
 
@@ -144,6 +146,7 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
         val genre: AppCompatTextView
         val year: AppCompatTextView
         val poster: AppCompatImageView
+        val rating: RatingBar
 
         var fView: View
         var leftView: View
@@ -159,6 +162,7 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
             this.genre = view.txt_popularity
             this.year = view.txt_year
             this.poster = view.img_movie_poster
+            this.rating = view.rating_movie
 
             this.fView = view.front_view
             this.leftView = view.rear_left_view

@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/all_movies_fragment"
         android:name="com.umairadil.androidjetpack.ui.movies.MoviesFragment"
-        android:label="MovieFragment"
+        android:label="Movies List"
         tools:layout="@layout/movie_fragment">
         <action
             android:id="@+id/action_mainFragment_to_detailFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.umairadil.androidjetpack.ui.detail.DetailFragment"
-        android:label="DetailFragment"
+        android:label="Movie Detail"
         tools:layout="@layout/detail_fragment" />
 
 </navigation>
