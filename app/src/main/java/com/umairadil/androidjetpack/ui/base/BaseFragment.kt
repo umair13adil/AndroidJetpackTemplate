@@ -13,6 +13,8 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ProgressBar
+import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
 import com.michaelflisar.rxbus2.interfaces.IRxBusQueue
 import com.michaelflisar.rxbus2.rx.RxDisposableManager
 import com.umairadil.androidjetpack.R
@@ -27,6 +29,7 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.reactivex.processors.BehaviorProcessor
 import org.reactivestreams.Publisher
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -150,7 +153,7 @@ abstract class BaseFragment : Fragment(), IRxBusQueue,
     //List Adapter's Callback
     override fun onItemClick(view: View?, position: Int): Boolean {
 
-        //Parent Clicked
+        /*//Parent Clicked
         if (adapter!!.getItem(position)?.itemViewType == 0) {
             if (adapter?.getItem(position) != null && adapter?.getItem(position) is MovieItem) {
                 selectItem(position, true)
@@ -160,7 +163,12 @@ abstract class BaseFragment : Fragment(), IRxBusQueue,
             if (adapter?.getItem(position) != null && adapter?.getItem(position) is SimilarItem) {
                 selectItem(position, false)
             }
-        }
+        }*/
+
+        Timber.i("On Click")
+        val bundle = bundleOf("data" to getListObject(position)?.id)
+
+        view?.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_movieFragment_to_detailFragment, bundle))
 
         return true
     }
@@ -346,7 +354,7 @@ abstract class BaseFragment : Fragment(), IRxBusQueue,
     /**
      * This will return parent task item from list.
      */
-    fun getParentTask(position: Int): Movie? {
+    fun getListObject(position: Int): Movie? {
         val item = adapter?.getItem(position) as? MovieItem
         return item?.movie
     }

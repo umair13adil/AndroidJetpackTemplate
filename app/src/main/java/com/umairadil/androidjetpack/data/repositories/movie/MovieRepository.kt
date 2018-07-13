@@ -101,7 +101,9 @@ class MovieRepository @Inject constructor(private var api: RestService, private 
 
             val genreList = arrayListOf<String>()
 
-            for (genre in movieItem.genreIds!!) {
+            val genreIds = movieItem.genreIds!!
+
+            for (genre in genreIds) {
                 val index = this.genreList.binarySearch { String.CASE_INSENSITIVE_ORDER.compare(it.id.toString(), genre) }
 
                 if (index > 0 && index < this.genreList.size)
@@ -109,7 +111,7 @@ class MovieRepository @Inject constructor(private var api: RestService, private 
             }
 
             //Set genre names to movie item
-            movieItem.genreNames = genreList
+            movieItem.genreNames = genreList.joinToString()
 
             //Add movie item to serverMoviesList
             moviesList.add(movieItem)
@@ -120,5 +122,11 @@ class MovieRepository @Inject constructor(private var api: RestService, private 
 
     override fun searchMovies(page: Int, query: String): Observable<MovieListResponse> {
         return api.searchMovies(page, query, Constants.API_KEY)
+    }
+
+    override fun getSuggestedMovies(year: Int, sortBy: String, genre: Int): Observable<List<Movie>> {
+        val list = db.findAll<Movie>(Movie().javaClass)
+        Timber.i("getSuggestedMovies: ${list.size}")
+        return Observable.just(list)
     }
 }

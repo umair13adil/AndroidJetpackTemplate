@@ -12,5 +12,7 @@ interface MovieDataSource {
 
     fun getAllMovies(page: Int, year: Int, sortBy: String, genre: Int): Observable<List<Movie>>
 
+    fun getSuggestedMovies(year: Int, sortBy: String, genre: Int): Observable<List<Movie>>
+
     fun searchMovies(page: Int, query: String): Observable<MovieListResponse>
 }

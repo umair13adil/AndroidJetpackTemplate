@@ -125,7 +125,15 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(this, R.id.movies_fragment)) || super.onOptionsItemSelected(item)
+        if (item.itemId == R.id.all_movies_fragment)
+            return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(this, R.id.movies_fragment)) || super.onOptionsItemSelected(item)
+        else if (item.itemId == R.id.fav_movies_fragment)
+            return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(this, R.id.fav_movies_fragment)) || super.onOptionsItemSelected(item)
+        else if (item.itemId == R.id.fav_suggested_fragment)
+            return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(this, R.id.fav_suggested_fragment)) || super.onOptionsItemSelected(item)
+
+        return super.onOptionsItemSelected(item)
+
     }
 
 }

@@ -119,7 +119,7 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
 
         holder.title.setText(movie.originalTitle)
         holder.overview.setText(movie.overview)
-        holder.genre.setText(movie.genreNames?.joinToString())
+        holder.genre.setText(movie.genreNames)
         holder.year.setText(Utils.getInstance().formatDate(movie.releaseDate.toString()))
         holder.rating.rating = movie.voteAverage.toFloat()
 

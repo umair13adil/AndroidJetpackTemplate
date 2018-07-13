@@ -13,19 +13,18 @@ import com.umairadil.androidjetpack.models.rxbus.FilterOptions
 import com.umairadil.androidjetpack.models.search.SearchQuery
 import com.umairadil.androidjetpack.ui.base.BaseFragment
 import com.umairadil.androidjetpack.utils.Constants
-import eu.davidea.flexibleadapter.FlexibleAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.empty_view.*
 import kotlinx.android.synthetic.main.movie_fragment.*
 
-class MoviesFragment : BaseFragment() {
+class SuggestedMoviesFragment : BaseFragment() {
 
     private lateinit var viewModel: MoviesViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.movie_fragment, container, false)
+        return inflater.inflate(R.layout.suggested_fragment, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,22 +40,6 @@ class MoviesFragment : BaseFragment() {
 
         //Attach fast scroller to list adapter
         adapter?.setFastScroller(fast_scroller)
-
-        //Endless Scroll listener Callbacks
-        val scrollListener = object : FlexibleAdapter.EndlessScrollListener {
-            override fun noMoreLoad(newItemsSize: Int) {}
-
-            override fun onLoadMore(lastPosition: Int, currentPage: Int) {
-
-                viewModel.currentPage = currentPage + 1
-
-                //Get page of movies list
-                getMovies(viewModel.currentPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
-            }
-        }
-
-        //Attach endless scroll listener
-        setEndlessScroll(scrollListener)
 
         //Get first page of movies list
         getMovies(viewModel.firstPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
@@ -113,17 +96,13 @@ class MoviesFragment : BaseFragment() {
 
     private fun getMovies(page: Int, year: Int, sortBy: String, genre: Int) {
 
-        //Do nothing if page is less than 1
-        if (page < 1)
-            return
-
         //Do nothing if filter is applied
         if (adapter?.hasFilter()!!) {
             return
         }
 
         //This will call API or fetch from local repository
-        viewModel.getMovies(page, year, sortBy, genre)
+        viewModel.getSuggestedMovies(year, sortBy, genre)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe {

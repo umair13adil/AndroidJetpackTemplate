@@ -7,6 +7,7 @@
     <!--Menu Items-->
     <string name="menu_all_movies">Movies</string>
     <string name="menu_fav_movies">Favourites</string>
+    <string name="menu_suggested_movies">Suggested</string>
 
     <!--General-->
     <string name="no_more_load_retry">No more items to load. Refresh to retry.</string>

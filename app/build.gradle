@@ -78,6 +78,12 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:2.16"
     kapt "com.google.dagger:dagger-android-processor:2.16"
 
+    //AndroidX
+    implementation "androidx.core:core-ktx:$rootProject.ktxVersion"
+
+    //Worker
+    implementation "android.arch.work:work-runtime-ktx:$rootProject.workVersion"
+
     //Logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
 

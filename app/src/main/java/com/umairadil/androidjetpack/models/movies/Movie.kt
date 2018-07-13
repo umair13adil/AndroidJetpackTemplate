@@ -1,13 +1,20 @@
 package com.umairadil.androidjetpack.models.movies
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
+import io.realm.RealmList
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-public class Movie {
+open class Movie : RealmObject(){
+
+    public fun Movie(){
+
+    }
 
     @SerializedName("vote_count")
     var voteCount: Int = 0
 
+    @PrimaryKey
     @SerializedName("id")
     var id: Int = 0
 
@@ -33,7 +40,7 @@ public class Movie {
     var originalTitle: String? = null
 
     @SerializedName("genre_ids")
-    var genreIds: ArrayList<String>? = null
+    var genreIds: RealmList<String>? = null
 
     @SerializedName("backdrop_path")
     var backdropPath: String? = null
@@ -47,5 +54,5 @@ public class Movie {
     @SerializedName("release_date")
     var releaseDate: String? = null
 
-    var genreNames: ArrayList<String>? = null
+    var genreNames: String? = null
 }

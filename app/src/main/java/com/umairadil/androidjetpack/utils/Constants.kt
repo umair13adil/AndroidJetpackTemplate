@@ -37,4 +37,7 @@ object Constants {
     const val PREF_YEAR = "pref_year"
     const val PREF_SORT = "pref_sort"
     const val PREF_GENRE = "pref_genre"
+
+    //WorkManager
+    const val KEY_QUERY_DATA = "KEY_QUERY_ARG"
 }

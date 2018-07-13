@@ -9,9 +9,14 @@
         android:name="com.umairadil.androidjetpack.ui.movies.MoviesFragment"
         android:label="Movies List"
         tools:layout="@layout/movie_fragment">
+
         <action
-            android:id="@+id/action_mainFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            android:id="@+id/action_movieFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
@@ -19,5 +24,15 @@
         android:name="com.umairadil.androidjetpack.ui.detail.DetailFragment"
         android:label="Movie Detail"
         tools:layout="@layout/detail_fragment" />
+
+    <fragment
+        android:id="@+id/fav_suggested_fragment"
+        android:name="com.umairadil.androidjetpack.ui.movies.SuggestedMoviesFragment"
+        android:label="Suggested"
+        tools:layout="@layout/suggested_fragment" >
+        <action
+            android:id="@+id/action_suggestedFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 
 </navigation>
