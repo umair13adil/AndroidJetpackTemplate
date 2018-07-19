@@ -1,7 +1,7 @@
 # AndroidJetpackTemplate
-This is a template project with Android JetPack Implementation.
+This is a template project with Android JetPack & AndroidX Implementation.
 
-### Navigation + WorkManager+ Kotlin + Dagger 2 + Retrofit 2 + Realm + RxBus2  + ViewModel
+### Navigation + WorkManager+ Kotlin + Dagger2 + Retrofit2 + Realm + RxBus2  + ViewModel + AndroidX
 ##### `A simple android template with Android Jetpack`. 
 
 A simple app to display list of Movies in RecyclerView using power of Android Jetpack. You can search, filter and bookmark movies. 

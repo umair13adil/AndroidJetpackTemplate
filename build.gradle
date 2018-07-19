@@ -4,16 +4,20 @@ buildscript {
     ext{
         kotlin_version = '1.2.50'
 
-        // App dependencies
+        //App dependencies
         supportLibraryVersion = '28.0.0-alpha3'
-        navigationVersion = '1.0.0-alpha02'
+        androidxVersion = '1.0.0-beta01'
+        navigationVersion = '1.0.0-alpha03'
+        ktxVersion = '0.3'
+        workVersion = '1.0.0-alpha04'
+        lifeCycle = '2.0.0-beta01'
     }
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-alpha02'
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha03'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.realm:realm-gradle-plugin:5.2.0"
 
