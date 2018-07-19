@@ -149,11 +149,14 @@
                                 style="?android:attr/ratingBarStyleSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:layout_marginRight="@dimen/margin_10"
                                 android:isIndicator="true"
                                 android:numStars="5"
-                                android:stepSize="0.1"
-                                android:layout_marginLeft="@dimen/margin_10"
-                                android:layout_marginRight="@dimen/margin_10"/>
+                                android:backgroundTint="@color/colorPrimary"
+                                android:progressTint="@color/colorPrimary"
+                                android:secondaryProgressTint="@android:color/transparent"
+                                android:stepSize="1" />
 
                         </LinearLayout>
 

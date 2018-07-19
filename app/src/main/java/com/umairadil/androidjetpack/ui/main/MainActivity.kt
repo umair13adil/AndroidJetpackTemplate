@@ -3,8 +3,11 @@ package com.umairadil.androidjetpack.ui.main
 import android.app.SearchManager
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.widget.SearchView
 import android.view.Menu
@@ -42,6 +45,15 @@ class MainActivity : BaseActivity() {
 
         //Setup navigation view with navigation controller
         navigation_view.setupWithNavController(navController)
+
+        navController.addOnNavigatedListener { controller, destination ->
+
+            if (destination.id == R.id.detailFragment) {
+                showToolBarOption(false)
+            } else {
+                showToolBarOption(true)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -67,7 +79,6 @@ class MainActivity : BaseActivity() {
 
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                Timber.i("onMenuItemActionCollapse")
 
                 //Send 'CLEAR SEARCH' value to clear filter
                 RxBus.get().send(SearchQuery("", Constants.CLEAR_SEARCH))
@@ -76,7 +87,6 @@ class MainActivity : BaseActivity() {
             }
 
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                Timber.i("onMenuItemActionExpand")
                 return true
             }
         })
@@ -125,15 +135,25 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.all_movies_fragment)
-            return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(this, R.id.movies_fragment)) || super.onOptionsItemSelected(item)
-        else if (item.itemId == R.id.fav_movies_fragment)
-            return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(this, R.id.fav_movies_fragment)) || super.onOptionsItemSelected(item)
-        else if (item.itemId == R.id.fav_suggested_fragment)
-            return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(this, R.id.fav_suggested_fragment)) || super.onOptionsItemSelected(item)
 
-        return super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.all_movies_fragment -> doNavigation(item, R.id.movies_fragment)
+            R.id.fav_movies_fragment -> doNavigation(item, R.id.fav_movies_fragment)
+            R.id.fav_suggested_fragment -> doNavigation(item, R.id.fav_suggested_fragment)
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
+    private fun doNavigation(item: MenuItem, id: Int): Boolean {
+        return NavigationUI.onNavDestinationSelected(item, Navigation.findNavController(this, id))
+    }
+
+    private fun showToolBarOption(show: Boolean) {
+        if (show) {
+            supportActionBar?.show()
+        } else {
+            supportActionBar?.hide()
+        }
     }
 
 }

@@ -61,6 +61,7 @@
     <dimen name="margin_400">400dp</dimen>
     <dimen name="margin_450">450dp</dimen>
     <dimen name="margin_500">500dp</dimen>
+    <dimen name="margin_800">800dp</dimen>
     <dimen name="icon_size_35">35dp</dimen>
     <dimen name="icon_size_45">45dp</dimen>
 

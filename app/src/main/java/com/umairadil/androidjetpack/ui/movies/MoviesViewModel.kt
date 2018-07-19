@@ -15,8 +15,8 @@ class MoviesViewModel @Inject constructor(private var movieRepository: MovieRepo
 
     //Selected Filter
     var defaultYear = Calendar.getInstance().get(Calendar.YEAR)
-    var defaultSort = ""
-    var defaultGenre = 18
+    var defaultSort = "popularity.desc" //Get Most popular movies by default
+    var defaultGenre = 28 //Action
     var currentPage = 0
     var firstPage = 1
 

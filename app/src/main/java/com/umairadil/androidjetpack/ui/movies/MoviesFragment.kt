@@ -39,9 +39,6 @@ class MoviesFragment : BaseFragment() {
         //Set up list adapter
         setUpAdapter(recycler_view)
 
-        //Attach fast scroller to list adapter
-        adapter?.setFastScroller(fast_scroller)
-
         //Endless Scroll listener Callbacks
         val scrollListener = object : FlexibleAdapter.EndlessScrollListener {
             override fun noMoreLoad(newItemsSize: Int) {}

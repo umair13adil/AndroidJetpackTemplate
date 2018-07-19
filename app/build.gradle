@@ -35,12 +35,21 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    //AndroidX Libraries
+    /*implementation "androidx.appcompat:appcompat:$rootProject.androidxVersion"
+    implementation "androidx.cardview:cardview:$rootProject.androidxVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    implementation "androidx.annotation:annotation:$rootProject.androidxVersion"
+    implementation "com.google.android.material:material:$rootProject.androidxVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'*/
+
     //Support Libraries
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:design:$rootProject.supportLibraryVersion"
     implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     implementation "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:support-fragment:$rootProject.supportLibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:1.1.2"
 
     //RxKotlin
@@ -51,6 +60,7 @@ dependencies {
 
     // LiveData + ViewModel
     implementation "android.arch.lifecycle:extensions:1.1.1"
+    //implementation "androidx.lifecycle:lifecycle-extensions:$lifeCycle"
 
     // Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"

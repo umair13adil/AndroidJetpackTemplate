@@ -1,6 +1,7 @@
 package com.umairadil.androidjetpack.ui.movies.items
 
 import android.animation.Animator
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.AppCompatTextView
@@ -17,68 +18,18 @@ import com.umairadil.androidjetpack.utils.Utils
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.helpers.AnimatorHelper
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
-import eu.davidea.flexibleadapter.items.IExpandable
 import eu.davidea.flexibleadapter.items.IFilterable
 import eu.davidea.flexibleadapter.items.IFlexible
-import eu.davidea.viewholders.ExpandableViewHolder
+import eu.davidea.flexibleadapter.utils.DrawableUtils
+import eu.davidea.viewholders.FlexibleViewHolder
 import kotlinx.android.synthetic.main.item_movie.view.*
 
-class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHolder>(), IExpandable<MovieItem.ParentViewHolder, SimilarItem>, IFilterable<String> {
-
-    private val color = R.color.colorPrimaryDark
-
-    /* subItems list */
-    var similarMovieItems: MutableList<SimilarItem>? = null
-
-    /* Flags for FlexibleAdapter */
-    private var mExpanded = false
-
-    //Boolean flags
-    var isSelected = false
+class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHolder>(),IFilterable<String> {
 
     init {
         isDraggable = false
         isSwipeable = true
         isSelectable = true
-        isExpanded = false
-    }
-
-    override fun isExpanded(): Boolean {
-        return mExpanded
-    }
-
-    override fun setExpanded(expanded: Boolean) {
-        mExpanded = expanded
-    }
-
-    override fun getExpansionLevel(): Int {
-        return 0
-    }
-
-    override fun getSubItems(): List<SimilarItem>? {
-        return similarMovieItems
-    }
-
-    fun hasSubItems(): Boolean {
-        return similarMovieItems != null && similarMovieItems!!.size > 0
-    }
-
-    fun removeSubItem(taskItem: SimilarItem?): Boolean {
-        return taskItem != null && similarMovieItems!!.remove(taskItem)
-    }
-
-    fun removeSubItem(position: Int): Boolean {
-        if (similarMovieItems != null && position >= 0 && position < similarMovieItems!!.size) {
-            similarMovieItems!!.removeAt(position)
-            return true
-        }
-        return false
-    }
-
-    fun addSubItem(subTaskItem: SimilarItem) {
-        if (similarMovieItems == null)
-            similarMovieItems = mutableListOf<SimilarItem>()
-        similarMovieItems!!.add(subTaskItem)
     }
 
     /**
@@ -101,10 +52,6 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
         return R.layout.item_movie
     }
 
-    override fun getItemViewType(): Int {
-        return 0
-    }
-
     override fun filter(constraint: String?): Boolean {
         return movie.originalTitle != null && movie.originalTitle?.toLowerCase()?.trim()?.contains(constraint!!)!! ||
                 movie.overview != null && movie.overview?.toLowerCase()?.trim()?.contains(constraint!!)!!
@@ -115,7 +62,6 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
     }
 
     override fun bindViewHolder(adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>, holder: ParentViewHolder, position: Int, payloads: MutableList<Any>?) {
-        holder.itemView.setActivated(isSelected)
 
         holder.title.setText(movie.originalTitle)
         holder.overview.setText(movie.overview)
@@ -125,21 +71,15 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
 
         Picasso.with(holder.itemView.context).load(Constants.BASE_URL_IMAGE + movie.posterPath).into(holder.poster)
 
-        //This will change UI backgrounds & colors upon selection
-        if (hasSubItems())
-            doSelectionChanges(holder)
+        val context = holder.itemView.context
+        val drawable: Drawable = DrawableUtils.getSelectableBackgroundCompat(
+                ContextCompat.getColor(context, R.color.colorWhite),
+                ContextCompat.getColor(context, R.color.colorAccent), // pressed background
+                ContextCompat.getColor(context, R.color.colorPrimaryDark)) // ripple color
+        DrawableUtils.setBackgroundCompat(holder.frontView, drawable)
     }
 
-    private fun doSelectionChanges(holder: ParentViewHolder) {
-
-        if (isSelected) {
-            setSelection(holder)
-        } else {
-            clearSelection(holder)
-        }
-    }
-
-    class ParentViewHolder(view: View, adapter: FlexibleAdapter<*>) : ExpandableViewHolder(view, adapter) {
+    class ParentViewHolder(view: View, adapter: FlexibleAdapter<*>) : FlexibleViewHolder(view, adapter) {
 
         val title: AppCompatTextView
         val overview: AppCompatTextView
@@ -213,26 +153,7 @@ class MovieItem(val movie: Movie) : AbstractFlexibleItem<MovieItem.ParentViewHol
     }
 
     override fun toString(): String {
-        return "MovieItem[" + super.toString() + "//SubItems" + similarMovieItems + "]"
-    }
-
-    private fun setSelection(holder: ParentViewHolder) {
-        val colorContent = R.color.colorWhite
-        val context = holder.contentView.context
-
-        holder.frontView.setBackgroundColor(ContextCompat.getColor(context, color))
-        holder.title.setTextColor(ContextCompat.getColor(context, colorContent))
-        holder.overview.setTextColor(ContextCompat.getColor(context, colorContent))
-        holder.genre.setTextColor(ContextCompat.getColor(context, colorContent))
-    }
-
-    private fun clearSelection(holder: ParentViewHolder) {
-        val context = holder.contentView.context
-
-        holder.frontView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
-        holder.title.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
-        holder.overview.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
-        holder.genre.setTextColor(ContextCompat.getColor(context, R.color.colorBlack))
+        return "MovieItem[" + super.toString() +  "]"
     }
 
 }

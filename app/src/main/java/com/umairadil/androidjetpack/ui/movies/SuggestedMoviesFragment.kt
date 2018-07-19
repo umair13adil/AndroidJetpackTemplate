@@ -38,9 +38,6 @@ class SuggestedMoviesFragment : BaseFragment() {
         //Set up list adapter
         setUpAdapter(recycler_view)
 
-        //Attach fast scroller to list adapter
-        adapter?.setFastScroller(fast_scroller)
-
         //Get first page of movies list
         getMovies(viewModel.firstPage, viewModel.defaultYear, viewModel.defaultSort, viewModel.defaultGenre)
 

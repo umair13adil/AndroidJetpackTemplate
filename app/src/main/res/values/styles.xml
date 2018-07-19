@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
     </style>
 
@@ -15,9 +14,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="scrollbarStyleVertical">
         <item name="android:scrollbarStyle">outsideOverlay</item>
@@ -35,7 +34,7 @@
     </style>
 
     <style name="TextTitleStyle.Large">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">@dimen/txt_size_16</item>
         <item name="android:gravity">start</item>
         <item name="android:textStyle">bold</item>
@@ -43,7 +42,7 @@
     </style>
 
     <style name="TextTitleStyle.Focused">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">@dimen/txt_size_16</item>
         <item name="android:gravity">start</item>
         <item name="android:textStyle">bold</item>
@@ -69,7 +68,7 @@
     </style>
 
     <style name="TextTitleStyle.Small">
-        <item name="android:textColor">@color/colorTextLightDark</item>
+        <item name="android:textColor">@color/colorTextDark</item>
         <item name="android:textSize">@dimen/txt_size_14</item>
         <item name="android:gravity">start</item>
         <item name="android:textStyle">normal</item>
@@ -101,6 +100,5 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textStyle">bold</item>
     </style>
-
 
 </resources>
