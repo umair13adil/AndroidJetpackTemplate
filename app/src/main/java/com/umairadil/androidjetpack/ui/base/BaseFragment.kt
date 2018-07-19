@@ -28,6 +28,7 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.items.IFlexible
 import io.reactivex.processors.BehaviorProcessor
 import org.reactivestreams.Publisher
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -124,8 +125,13 @@ abstract class BaseFragment : Fragment(), IRxBusQueue,
     //List Adapter's Callback
     override fun onItemClick(view: View?, position: Int): Boolean {
 
-        val bundle = DetailFragment.bundleArgs(getListObject(position))
-        Navigation.findNavController(view!!).navigate(R.id.action_movieFragment_to_detailFragment, bundle)
+        try {
+            val bundle = DetailFragment.bundleArgs(getListObject(position))
+            Navigation.findNavController(view!!).navigate(R.id.action_movieFragment_to_detailFragment, bundle)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+            Timber.e("Error: %s", e)
+        }
 
         return true
     }

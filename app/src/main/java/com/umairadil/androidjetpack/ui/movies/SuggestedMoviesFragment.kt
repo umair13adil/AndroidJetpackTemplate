@@ -144,6 +144,7 @@ class SuggestedMoviesFragment : BaseFragment() {
 
                             //Add data to list adapter
                             showOrHideList(recycler_view, empty_view, it.results!!)
+
                         },
                         onError = {
                             it.printStackTrace()

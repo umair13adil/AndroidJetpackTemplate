@@ -3,12 +3,17 @@ package com.umairadil.androidjetpack.worker
 import androidx.work.Worker
 import com.umairadil.androidjetpack.data.local.RealmHelper
 import com.umairadil.androidjetpack.di.NetworkModule
+import com.umairadil.androidjetpack.models.movies.Movie
 import com.umairadil.androidjetpack.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import io.realm.RealmList
 
 class AnalyzeMoviesWorker : Worker() {
+
+    val maxResults = 10
+    var addedResults = 0
 
     override fun doWork(): Result {
 
@@ -16,6 +21,8 @@ class AnalyzeMoviesWorker : Worker() {
 
         if (queryValue.isNullOrBlank())
             return Worker.Result.FAILURE
+
+        RealmHelper().remove(Movie().javaClass)
 
         findMovieWithSearchedQuery(queryValue)
 
@@ -33,8 +40,10 @@ class AnalyzeMoviesWorker : Worker() {
                             val max = 2
                             var count = 0
 
+                            val genreList = it.results?.first()?.genreIds
+
                             for (movie in it.results!!) {
-                                findSimilar(movie.id)
+                                findSimilar(movie.id, genreList)
                                 count++
 
                                 //Break loop if max count is reached
@@ -52,7 +61,7 @@ class AnalyzeMoviesWorker : Worker() {
                 )
     }
 
-    private fun findSimilar(movieId: Int) {
+    private fun findSimilar(movieId: Int, genres: RealmList<String>?) {
         NetworkModule().provideApiService().getSimilarMovies(movieId, Constants.API_KEY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -60,7 +69,22 @@ class AnalyzeMoviesWorker : Worker() {
                         onNext = {
 
                             for (movie in it.results!!) {
-                                RealmHelper().add(movie)
+
+                                for (genreId in genres!!) {
+
+                                    if (movie.genreIds?.contains(genreId)!!) {
+
+                                        if (addedResults <= maxResults) {
+
+                                            RealmHelper().add(movie)
+                                            addedResults++
+
+                                        } else {
+                                            break
+                                        }
+                                    }
+
+                                }
                             }
                         },
                         onError = {

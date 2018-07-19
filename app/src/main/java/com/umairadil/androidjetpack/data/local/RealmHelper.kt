@@ -30,12 +30,11 @@ class RealmHelper {
         return model
     }
 
-    fun <T : RealmObject> remove(model: T): T {
+    fun <T : RealmObject> remove(clazz: Class<T>) {
         val realm = getRealmInstance()
         realm.executeTransaction {
-            it.deleteAll()
+            it.delete(clazz)
         }
-        return model
     }
 
     fun <T : RealmObject> findAll(clazz: Class<T>): List<T> {
